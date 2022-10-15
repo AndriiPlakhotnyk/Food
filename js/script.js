@@ -181,33 +181,13 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    new Menu(
-        'img/tabs/vegy.jpg',
-        'vegy',
-        'Меню "Фитнес"',
-        'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-        9,
-        '.menu .container'
-    ).render();
-
-    new Menu(
-        'img/tabs/elite.jpg',
-        'elite',
-        'Меню “Премиум”',
-        'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-        14,
-        '.menu .container'
-    ).render();
-
-    new Menu(
-        'img/tabs/post.jpg',
-        'post',
-        'Меню "Постное"',
-        'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-        21,
-        '.menu .container'
-    ).render();
-
+    axios.get('http://localhost:3000/menu')
+        .then(data => {
+            data.data.forEach(({img, altimg, title, descr, price}) => {
+                new Menu(img, altimg, title, descr, price, '.menu .container').render();
+            });
+        });
+        
     //Forms
 
     const forms = document.querySelectorAll('form');
@@ -246,12 +226,10 @@ window.addEventListener('DOMContentLoaded', () => {
             form.insertAdjacentElement('afterend', statusMessage);
 
             const formData = new FormData(form);
-            const object = {};
-            formData.forEach(function(value, key) {
-                object[key] = value;
-            });
+            
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
-            postData('http://localhost:3000/requests', JSON.stringify(object))
+            postData('http://localhost:3000/requests', json)
             .then(data => {
                 console.log(data);
                 showThanksModal(message.succes);
@@ -288,4 +266,56 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     }
 
+    //Slider
+
+    const slides = document.querySelectorAll('.offer__slide'),
+          prev = document.querySelector('.offer__slider-prev'),
+          next = document.querySelector('.offer__slider-next'),
+          total = document.querySelector('#total'),
+          current = document.querySelector('#current');
+
+    let indexOfSliders = 1;
+
+    showSlides(indexOfSliders);
+
+    if (total.length < 10) {
+        total.textContent = `0${slides.length}`;
+    } else {
+        total.textContent = slides.length;
+    }
+
+    function showSlides(n) {
+        if (n > slides.length) {
+            indexOfSliders = 1;
+        }
+
+        if (n < 1) {
+            indexOfSliders = slides.length;
+        }
+
+        slides.forEach(item => item.style.display = 'none');
+
+        slides[indexOfSliders - 1].style.display = 'block';
+
+        if (current.length < 10) {
+            current.textContent = `0${indexOfSliders}`;
+        } else {
+            current.textContent = indexOfSliders;
+        }
+    }
+
+    function plusSlide(n) {
+        showSlides(indexOfSliders += n);
+    }
+
+
+    prev.addEventListener('click', () => {
+        plusSlide(-1);
+    });
+
+    next.addEventListener('click', () => {
+        plusSlide(1);
+    });
+
+    
 });
