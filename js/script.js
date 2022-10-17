@@ -201,7 +201,7 @@ window.addEventListener('DOMContentLoaded', () => {
         bindPostData(item);
     });
 
-    const postData = async (url, data) => {
+    const postData = async (url, data) => { 
         const res = await fetch(url, {
             method: "POST",
             headers: {
@@ -313,9 +313,7 @@ window.addEventListener('DOMContentLoaded', () => {
         plusSlide(-1);
     });
 
-    next.addEventListener('click', () => {
-        plusSlide(1);
-    });
+   
 
     
 });
