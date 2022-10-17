@@ -270,20 +270,27 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const slides = document.querySelectorAll('.offer__slide'),
           prev = document.querySelector('.offer__slider-prev'),
+<<<<<<< HEAD
           next = document.querySelector('.offer__slider-next'),
           total = document.querySelector('#total'),
           current = document.querySelector('#current');
+=======
+          next = document.querySelector('.offer__slider-next');
+>>>>>>> f9d8f4aa4fa058720a63c6707aa875ee2d772904
 
     let indexOfSliders = 1;
 
     showSlides(indexOfSliders);
 
+<<<<<<< HEAD
     if (total.length < 10) {
         total.textContent = `0${slides.length}`;
     } else {
         total.textContent = slides.length;
     }
 
+=======
+>>>>>>> f9d8f4aa4fa058720a63c6707aa875ee2d772904
     function showSlides(n) {
         if (n > slides.length) {
             indexOfSliders = 1;
@@ -296,19 +303,25 @@ window.addEventListener('DOMContentLoaded', () => {
         slides.forEach(item => item.style.display = 'none');
 
         slides[indexOfSliders - 1].style.display = 'block';
+<<<<<<< HEAD
 
         if (current.length < 10) {
             current.textContent = `0${indexOfSliders}`;
         } else {
             current.textContent = indexOfSliders;
         }
+=======
+>>>>>>> f9d8f4aa4fa058720a63c6707aa875ee2d772904
     }
 
     function plusSlide(n) {
         showSlides(indexOfSliders += n);
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f9d8f4aa4fa058720a63c6707aa875ee2d772904
     prev.addEventListener('click', () => {
         plusSlide(-1);
     });
